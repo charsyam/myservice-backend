@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+pymysql
+pycryptodome
+argon2-cffi
+pyjwt
+trio
+pytest

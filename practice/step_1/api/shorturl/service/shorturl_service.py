@@ -1,0 +1,28 @@
+from api.shorturl.repository.shorturl_repository import ShortUrlRepository
+from api.shorturl.converter.shorturl_converter import ShortUrlConverter
+from api.shorturl.repository.visit_history_repository import VisitHistoryRepository
+from api.shorturl.entity.shorturl import ShortUrl
+from api.shorturl.entity.visit_history import VisitHistory
+
+from exceptions import *
+
+
+class ShortUrlService:
+    def __init__(self, db):
+        self.shorturl_repository = ShortUrlRepository(db)
+        self.visit_history_repository = VisitHistoryRepository(db)
+
+    def create(self, source, account):
+        shorturl = ShortUrl(user_id=account.id, user_uid=account.uid, source=source, status='REGISTERED')
+        self.shorturl_repository.save(shorturl)
+        return ShortUrlConverter.to_dto(shorturl)
+
+    def get_shorturl(self, url, request_ip = None):
+        shorturl = self.shorturl_repository.find_by_shorturl(url)
+        if not shorturl:
+            raise ShortUrlNotExistException(url)
+
+        history = VisitHistory(status='REGISTERED', shorturl_id = shorturl.id, shorturl_uid = shorturl.uid, request_ip=request_ip)
+        self.visit_history_repository.save(history)
+
+        return ShortUrlConverter.to_dto(shorturl)
