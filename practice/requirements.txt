@@ -8,3 +8,4 @@ argon2-cffi
 pyjwt
 trio
 pytest
+prometheus-fastapi-instrumentator

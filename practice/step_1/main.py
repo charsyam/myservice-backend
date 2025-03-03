@@ -1,4 +1,5 @@
 from typing import List, Dict, Any
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from fastapi import FastAPI, Depends, Path, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -6,26 +7,17 @@ from pydantic import BaseModel
 from database import engineconn
 from sqlalchemy import func
 
-from argon2 import PasswordHasher
-
 import random
 import uuid
-
-from encrypt import RSA
-from models import *
-from exceptions import *
-
 
 from middlewares import create_middlewares
 from api.auth.controller.auth_controller import router as auth_routers
 from api.user.controller.user_controller import router as user_routers
 from api.shorturl.controller.shorturl_controller import router as shorturl_routers
 
+
 app = FastAPI()
-
-
-ph = PasswordHasher()
-
+Instrumentator().instrument(app).expose(app)
 
 create_middlewares(app)
 

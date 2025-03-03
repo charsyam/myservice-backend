@@ -1,1 +1,1 @@
-python3 -m pip install -U virtualenv
+python3 -m venv env
