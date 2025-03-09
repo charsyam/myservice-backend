@@ -8,4 +8,6 @@ argon2-cffi
 pyjwt
 trio
 pytest
+locust
 prometheus-fastapi-instrumentator
+redis
