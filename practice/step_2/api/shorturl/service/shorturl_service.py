@@ -24,27 +24,14 @@ class ShortUrlService:
         return ShortUrlConverter.to_dto(shorturl)
 
     def get_shorturl(self, url, request_ip = None):
-        t1 = time.perf_counter_ns()
         cache_value = self.cache_service.get_shorturl(url)
-        t2 = time.perf_counter_ns()
-        result = None
-        flag = "cache"
         if not cache_value:
-            flag = "db"
             shorturl = self.shorturl_repository.find_by_shorturl(url)
-            t3 = time.perf_counter_ns()
             if not shorturl:
-#                self.cache_service.set_shorturl(url, {})
                 raise ShortUrlNotExistException(url)
             
             self.cache_service.set_shorturl(url, shorturl)
-            t4 = time.perf_counter_ns()
         else:
-            t3 = time.perf_counter_ns()
-#            if len(cache_value.keys()) == 0:
-#                raise ShortUrlNotExistException(url)
             shorturl = ShortUrl.from_dict(cache_value)
-            t4 = time.perf_counter_ns()
         
-        logger.info(f"{flag}, cache: {t2-t1} db or null: {t3-t2} {t4-t3}")
         return ShortUrlConverter.to_dto(shorturl)

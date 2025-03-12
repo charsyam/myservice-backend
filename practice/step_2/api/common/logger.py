@@ -12,18 +12,13 @@ formatter = jsonlogger.JsonFormatter(
 )
 
 
-logging.getLogger("uvicorn.access").disabled = True
-logging.getLogger("uvicorn.error").disabled = True
+#logging.getLogger("uvicorn.access").disabled = True
+#logging.getLogger("uvicorn.error").disabled = True
 
-handler = logging.FileHandler(LOG_FILE)
-#handler = logging.StreamHandler()
-handler.setFormatter(formatter)
+#handler = logging.FileHandler(LOG_FILE)
+handler = logging.StreamHandler()
+#handler.setFormatter(formatter)
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+#logger.setLevel(logging.INFO)
 logger.addHandler(handler)
-
-
-class ContextFilter(logging.Filter):
-    def filter(self, record: logging.LogRecord):
-        return True

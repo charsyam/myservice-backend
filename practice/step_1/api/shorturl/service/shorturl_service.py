@@ -22,7 +22,4 @@ class ShortUrlService:
         if not shorturl:
             raise ShortUrlNotExistException(url)
 
-        history = VisitHistory(status='REGISTERED', shorturl_id = shorturl.id, shorturl_uid = shorturl.uid, request_ip=request_ip)
-        self.visit_history_repository.save(history)
-
         return ShortUrlConverter.to_dto(shorturl)
