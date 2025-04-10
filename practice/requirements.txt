@@ -11,3 +11,6 @@ pytest
 locust
 prometheus-fastapi-instrumentator
 redis
+python-json-logger
+mmh
+cryptography
