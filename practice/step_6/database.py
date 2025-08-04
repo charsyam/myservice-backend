@@ -19,7 +19,7 @@ WORKER_QUEUE_HOST = ("127.0.0.1", 6379)
 
 SHORTURL_DATABASES = [
     "127.0.0.1",
-    "192.168.0.112",
+    "127.0.0.1",
 ]
 
 MAIN_DATABASES = [

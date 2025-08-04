@@ -12,5 +12,6 @@ locust
 prometheus-fastapi-instrumentator
 redis
 python-json-logger
-mmh
+mmh3
 cryptography
+httpx
