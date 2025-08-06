@@ -15,7 +15,7 @@ router = APIRouter(prefix="/api/shorturl/v1")
 
 
 @router.post("/shorturl")
-async def create(
+def create(
     request: Dict[str, Any],
     account: Account = Depends(verify_token),
     db: Session = Depends(get_session),
@@ -31,7 +31,7 @@ async def create(
     return Response(body={"shorturl": shorturl})
 
 @router.post("/shorturl/noauth")
-async def create(
+def create(
     request: Dict[str, Any],
     db: Session = Depends(get_session),
     response_model=Response,
@@ -54,7 +54,7 @@ async def create(
 
 
 @router.get("/shorturl/{url}")
-async def visit_shorturl(
+def visit_shorturl(
     url: str,
     request: Request,
     db: Session = Depends(get_session)
@@ -69,7 +69,7 @@ async def visit_shorturl(
     return Response(body={"shorturl": shorturl})
 
 @router.get("/shorturl/random")
-async def visit_shorturl(
+def visit_shorturl(
     url: str,
     request: Request,
     db: Session = Depends(get_session)

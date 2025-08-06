@@ -1,3 +1,4 @@
+import asyncio
 import pytest
 import json
 from httpx import AsyncClient, ASGITransport
@@ -21,12 +22,22 @@ expired_headers = {"Authorization": f"Bearer {expired_token}"}
 invalid_headers = {"Authorization": "Bearer {invalid_token}"}
 no_headers = {}
 
-engine = engineconn()
+TEST_SHARD_ID = 0
+TEST_DATABASES = ["127.0.0.1"]
+engine = engineconn(TEST_DATABASES)
 
 existed_shorturl = None
 
+
+@pytest.fixture
+def event_loop():
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
+
+
 def get_session():
-    session = engine.sessionmaker()
+    session = engine.sessionmaker(shard_id=TEST_SHARD_ID)
     return session
 
 

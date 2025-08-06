@@ -42,6 +42,7 @@ CREATE TABLE `shorturls` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'index id',
   `uid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'unique id',
   `user_id` bigint NOT NULL,
+  `shard_id` bigint NOT NULL,
   `user_uid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'user uid',
   `source` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'access_token',
   `shorturl` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'refresh_token',

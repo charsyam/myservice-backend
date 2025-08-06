@@ -9,6 +9,7 @@ from api.common.crypto import get_private_key
 from core.utils.crypto.rsa import RSA
 from core.utils.token import create_token
 from database import engineconn
+from prometheus_client import REGISTRY
 
 
 # JWT 토큰 생성
@@ -24,6 +25,18 @@ no_headers = {}
 engine = engineconn()
 
 existed_shorturl = None
+
+
+def clean_prometheus():
+    collectors = list(REGISTRY._names_to_collectors.values())
+    for c in collectors:
+        try:
+            print(c)
+            REGISTRY.unregister(c)
+        except KeyError:
+            pass
+
+clean_prometheus()
 
 def get_session():
     session = engine.sessionmaker()
@@ -115,6 +128,7 @@ async def test_create_shorturl():
     body = response.json()["body"]
     existed_shorturl = body["shorturl"]["shorturl"]
     first_shorturl = body["shorturl"]["shorturl"]
+    print("body : ", body)
     assert response.status_code == 200
     assert "shorturl" in body
 

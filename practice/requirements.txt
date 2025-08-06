@@ -15,3 +15,5 @@ python-json-logger
 mmh3
 cryptography
 httpx
+anyio
+pytest-anyio
