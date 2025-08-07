@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 USERNAME="insight"
 PASSWORD="insight"
-HOST="localhost"
+HOST="127.0.0.1"
 PORT=3306
 DBNAME="shorturl"
 
@@ -13,49 +13,38 @@ DB_URL = f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}'
 
 REDIS_HOSTS = [
     ("127.0.0.1", 6379, "Redis1"),
-    ("127.0.0.1", 6380, "Redis2"),
-    ("127.0.0.1", 6381, "Redis3"),
+    ("127.0.0.1", 6379, "Redis2"),
+    ("127.0.0.1", 6379, "Redis3"),
 ]
 
-SHORTURL_DATABASES = [
-    "127.0.0.1",
-    "192.168.0.112",
-]
-
-MAIN_DATABASES = [
-    "127.0.0.1",
-]
+DATABASE = "127.0.0.1"
 
 class engineconn:
-    def __init__(self, hosts):
-        self.hosts = hosts
-        self.engines = [create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{db_host}:{PORT}/{DBNAME}', pool_recycle = 500) for db_host in hosts]
+    def __init__(self, host):
+        self.host = host
+        self.engine = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{host}:{PORT}/{DBNAME}', pool_recycle = 500)
 
-    def sessionmaker(self, shard_id):
-        Session = sessionmaker(bind=self.engines[shard_id], autocommit=False, autoflush=False)
+    def sessionmaker(self):
+        Session = sessionmaker(bind=self.engine, autocommit=False, autoflush=False)
         session = Session()
         return session
 
-    def connection(self, shard_id):
-        conn = self.engines[shard_id].connect()
+    def connection(self):
+        conn = self.engine.connect()
         return conn
 
 
-main_engine = engineconn(MAIN_DATABASES)
-shorturl_engine = engineconn(SHORTURL_DATABASES)
+engine = engineconn(DATABASE)
 Base = declarative_base()
 
 
+def set_engine(_engine):
+    global engine
+    engine = _engine
+
+
 def get_session():
-    session = main_engine.sessionmaker(0)
-    try:
-        yield session
-    finally:
-        session.close()
-
-
-def get_shorturl_shard_session(shard_id):
-    session = shorturl_engine.sessionmaker(shard_id)
+    session = engine.sessionmaker()
     try:
         yield session
     finally:

@@ -13,7 +13,6 @@ DB_URL = f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}'
 
 SHORTURL_DATABASES = [
     "127.0.0.1",
-    "192.168.0.112",
 ]
 
 MAIN_DATABASES = [

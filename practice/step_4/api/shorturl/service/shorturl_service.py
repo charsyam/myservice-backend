@@ -14,14 +14,14 @@ from api.common.logger import logger
 
 
 class ShortUrlService:
-    def __init__(self, shard_manager):
-        self.shard_manager = shard_manager
-        self.shorturl_repository = ShortUrlRepository(shard_manager)
+    def __init__(self, db):
+        self.db = db
+        self.shorturl_repository = ShortUrlRepository(db)
         self.cache_service = CacheService()
 
     def create(self, source, account):
         shorturl_value = str(uuid.uuid4())
-        shorturl = ShortUrl(user_id=account.id, shorturl=shorturl_value, user_uid=account.uid, source=source, status='REGISTERED', shard_id = self.shard_manager.get_logical_shard_id(shorturl_value))
+        shorturl = ShortUrl(user_id=account.id, shorturl=shorturl_value, user_uid=account.uid, source=source, status='REGISTERED')
         self.shorturl_repository.save(shorturl)
         return ShortUrlConverter.to_dto(shorturl)
 
