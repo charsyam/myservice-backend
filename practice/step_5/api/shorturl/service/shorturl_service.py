@@ -17,9 +17,9 @@ from api.worker.queue_manager import WORKER_QUEUE_MANAGER
 
 
 class ShortUrlService:
-    def __init__(self, shard_manager):
-        self.shard_manager = shard_manager
-        self.shorturl_repository = ShortUrlRepository(shard_manager)
+    def __init__(self, db):
+        self.db = db 
+        self.shorturl_repository = ShortUrlRepository(db)
         self.cache_service = CacheService()
 
     def insert_shorturl(self, shorturl):

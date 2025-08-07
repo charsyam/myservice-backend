@@ -1,13 +1,16 @@
+from sqlalchemy.orm import Session
+
 from api.worker.queue_manager import WORKER_QUEUE_MANAGER, ALLJOB_QUEUE
-from api.shorturl.manager.shard_manager import ShortUrlShardManager, get_shard_manager
+from api.shorturl.manager.shard_manager import ShortUrlShardManager
 from api.shorturl.service.shorturl_service import ShortUrlService
+from database import get_session
 
 
 SHORTURL_CREATED_ITEM_TYPE = "SHORTURL_CREATED"
 
 if __name__ == "__main__":
-    shard_manager: ShortUrlShardManager = get_shard_manager()
-    shorturl_service = ShortUrlService(shard_manager)
+    db: Session = get_session()
+    shorturl_service = ShortUrlService(db)
 
     while True:
         item = WORKER_QUEUE_MANAGER.get_item()
