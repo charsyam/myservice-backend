@@ -60,3 +60,11 @@ def get_shorturl_shard_session(shard_id):
         yield session
     finally:
         session.close()
+
+def set_main_engine(hosts):
+    global main_engine
+    main_engine = engineconn(hosts)
+
+def set_shorturl_engine(hosts):
+    global shorturl_engine
+    shorturl_engine = engineconn(hosts)

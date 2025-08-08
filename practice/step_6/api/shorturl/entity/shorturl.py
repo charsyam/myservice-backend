@@ -9,7 +9,7 @@ from database import Base
 
 
 class ShortUrl(Base):
-    __tablename__ = "shorturls"
+    __tablename__ = "sharded_shorturls"
 
     id = Column(BIGINT, nullable=False, autoincrement=True, primary_key=True)
     uid = Column(TEXT, nullable=False)

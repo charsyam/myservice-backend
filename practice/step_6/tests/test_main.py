@@ -9,7 +9,8 @@ from main import app
 from api.common.crypto import get_private_key
 from core.utils.crypto.rsa import RSA
 from core.utils.token import create_token
-from database import engineconn
+from database import engineconn, set_main_engine, set_shorturl_engine
+from api.shorturl.manager.shard_manager import ShardInfo, set_shard_mappings
 
 
 # JWT 토큰 생성
@@ -25,6 +26,14 @@ no_headers = {}
 TEST_SHARD_ID = 0
 TEST_DATABASES = ["127.0.0.1"]
 engine = engineconn(TEST_DATABASES)
+
+mappings = [
+    ShardInfo(0, 16384, 0),
+]
+
+set_main_engine(TEST_DATABASES)
+set_shorturl_engine(TEST_DATABASES)
+set_shard_mappings(mappings)
 
 existed_shorturl = None
 

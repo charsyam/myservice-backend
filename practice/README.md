@@ -1,4 +1,5 @@
 # To Run
+./create_virtualenv.sh
 source env/bin/activate
 
 step_1 -> base project

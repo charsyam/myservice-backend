@@ -73,6 +73,9 @@ mappings = [
     ShardInfo(8000, 16384, 1),
 ]
 
+def set_shard_mappings(_mappings):
+    global mappings
+    mappings = _mappings
 
 def get_shard_manager():
     return ShortUrlShardManager(mappings)
