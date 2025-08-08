@@ -52,6 +52,23 @@ CREATE TABLE `shorturls` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='shorturls';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `sharded_shorturls`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sharded_shorturls` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'index id',
+  `uid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'unique id',
+  `user_id` bigint NOT NULL,
+  `shard_id` bigint NOT NULL,
+  `user_uid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'user uid',
+  `source` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'access_token',
+  `shorturl` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'refresh_token',
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '회원상태값',
+  `created_at` datetime DEFAULT NULL COMMENT '생성일자',
+  `updated_at` datetime DEFAULT NULL COMMENT '수정일자',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='shorturls';
+/*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Table structure for table `tokens`
 --
