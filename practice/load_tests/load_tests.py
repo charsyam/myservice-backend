@@ -6,6 +6,15 @@ class UserBehavior(TaskSet):
     def get_public_key(self): 
         self.client.get(f'/api/auth/v1/public-key') 
 
+    @task 
+    def create_shorturl(self): 
+        body = {
+            "header": {},
+            "body": {
+                "source": "www.naver.com"
+            }
+        }
+        self.client.post("/api/shorturl/v1/noauth", json=body)
  
 class LocustUser(HttpUser): 
     host = "http://127.0.0.1:8000" 

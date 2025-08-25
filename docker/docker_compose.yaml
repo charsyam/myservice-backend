@@ -23,6 +23,16 @@ services:
       - redis_data:/data
     restart: always
 
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    restart: always
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus

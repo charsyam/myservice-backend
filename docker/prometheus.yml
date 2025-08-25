@@ -2,7 +2,7 @@ global:
   scrape_interval: 10s
   evaluation_interval: 10s
 scrape_configs:
-  - job_name: 'spring-boot-server'
+  - job_name: 'fast-api-server'
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ['127.0.0.1:8000']
+      - targets: ['host.docker.internal:8000']

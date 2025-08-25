@@ -1,0 +1,58 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9095
+
+ingester:
+  wal:
+    enabled: true
+    dir: /loki/wal
+  lifecycler:
+    address: 127.0.0.1
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
+    final_sleep: 0s
+  chunk_idle_period: 1h
+  max_chunk_age: 1h
+  chunk_target_size: 1048576   # 1 MiB
+  chunk_retain_period: 6m      # index read cache(기본 5m)보다 크게
+  # max_transfer_retries: (삭제됨)
+
+schema_config:
+  configs:
+    - from: "2025-08-10"         # ← 오늘 이후 시점
+      store: tsdb                 # ← v13는 tsdb 필수
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+storage_config:
+  filesystem:
+    directory: /loki/data         # TSDB 블록/청크/인덱스 루트
+
+limits_config:
+  # v13(tsdb)이면 구조화 메타데이터 허용 가능
+  allow_structured_metadata: true
+  retention_period: 336h          # 14일 보관
+  max_query_lookback: 336h
+
+compactor:
+  working_directory: /loki/compactor
+
+ruler:
+  storage:
+    type: local
+    local:
+      directory: /loki/rules
+  rule_path: /loki/rules-temp
+  alertmanager_url: http://localhost:9093
+  ring:
+    kvstore:
+      store: inmemory
+  enable_api: true
+

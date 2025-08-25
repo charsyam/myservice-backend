@@ -52,6 +52,25 @@ def create(
     shard_manager.commit()
     return Response(body={"shorturl": shorturl})
 
+@router.post("/shorturl/noauth")
+def create(
+    response_model=Response,
+    shard_manager: ShortUrlShardManager = Depends(get_shard_manager)
+):
+    shorturl_service = ShortUrlService(shard_manager)
+
+    source = "https://www.naver.com"
+
+    account = Account(
+        id = 1,
+        uid = "66eb7036-0d24-4c2a-9451-fe966699515d",
+        email = "",
+        status = "REGISTERED"
+    )
+
+    shorturl = shorturl_service.create(source, account)
+    shard_manager.commit()
+    return Response(body={"shorturl": shorturl})
 
 @router.get("/shorturl/{url}")
 def visit_shorturl(
