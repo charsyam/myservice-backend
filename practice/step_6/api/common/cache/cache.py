@@ -2,12 +2,12 @@ import json
 
 from database import REDIS_HOSTS
 from core.utils.mapper import json_serializer
-from api.common.cache.ketama import KatemaConsistentHashing
+from api.common.cache.ketama import KetamaConsistentHashing
 
 
 SHORTURL_CACHE_PREFIX = "shorturl"
 
-ch = KatemaConsistentHashing(REDIS_HOSTS)
+ch = KetamaConsistentHashing(REDIS_HOSTS)
 
 
 class CacheService:

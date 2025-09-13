@@ -50,7 +50,7 @@ def test():
 
 
 
-class KatemaConsistentHashing:
+class KetamaConsistentHashing:
     def __init__(self, hosts: List, connector=redis_connector, key_hash=mmh_hash, distributed_hash=ketama_hash, num_replicas: int = 160):
         """
         Redis를 활용한 Ketama Consistent Hashing 구현
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     hosts = [
         ("127.0.0.1", 6379, "Redis1"),
     ]
-    ch = KatemaConsistentHashing(hosts=hosts, connector=redis_connector)
+    ch = KetamaConsistentHashing(hosts=hosts, connector=redis_connector)
     
     # Redis 서버 추가 (실제 실행 전, Redis 서버가 실행 중이어야 함)
 #    ch.add_node("Redis1", "127.0.0.1", 6379)
