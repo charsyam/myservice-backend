@@ -10,7 +10,7 @@ from main import app
 from api.common.crypto import get_private_key
 from core.utils.crypto.rsa import RSA
 from core.utils.token import create_token
-from database import engineconn
+from database import engineconn, set_engine
 
 
 # JWT 토큰 생성
@@ -23,7 +23,8 @@ expired_headers = {"Authorization": f"Bearer {expired_token}"}
 invalid_headers = {"Authorization": "Bearer {invalid_token}"}
 no_headers = {}
 
-engine = engineconn()
+engine = engineconn("127.0.0.1")
+set_engine(engine)
 
 existed_shorturl = None
 
@@ -156,3 +157,4 @@ def test_visit_nonexistent_shorturl():
             response = await client.get('/api/shorturl/v1/shorturl/nonexistent')
         assert response.status_code == 404
     asyncio.run(__test_visit_nonexistent_shorturl_inner())
+

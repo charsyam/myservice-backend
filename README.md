@@ -7,8 +7,8 @@ practice 에 있는 폴더별 예제에 대한 설명입니다.
 |--|--|
 |step_1|기본적인 shorturl 생성 프로젝트|
 |step_2|캐시가 도입된 shorturl 생성 프로젝트|
-|step_3|캐시에 consistent hashing이 도입된 shorturl 생성 프로젝트|
-|step_4|Queue와 비동기 worker가 도입된 shorturl 생성 프로젝트|
+|step_4|캐시에 consistent hashing이 도입된 shorturl 생성 프로젝트|
+|step_5|Queue와 비동기 worker가 도입된 shorturl 생성 프로젝트|
 |step_6|db sharding 이 도입된 shorturl 생성 프로젝트|
 
 # Test & Excute
@@ -28,3 +28,10 @@ cd practice
 source env/bin/activate
 pip install -r ./requirements.txt
 ```
+
+# tools 에 있는 insert_pem.py 를 실행해야 합니다. 각 step 안에 있습니다. 한번만 실행하면 됩니다.
+```bash
+cd tools
+python insert_pem.py 4
+```
+

@@ -12,12 +12,11 @@ class ShortUrl(Base):
     __tablename__ = "shorturls"
 
     id = Column(BIGINT, nullable=False, autoincrement=True, primary_key=True)
-    uid = Column(TEXT, nullable=False, default=uuid.uuid4)
+    uid = Column(TEXT, nullable=False)
     user_id = Column(BIGINT, nullable=False)
     user_uid = Column(TEXT, nullable=False)
     source = Column(TEXT, nullable=False)
     shorturl = Column(TEXT, nullable=False, default=uuid.uuid4)
-    shard_id = Column(INT, nullable=False)
     status = Column(TEXT, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.now)
 

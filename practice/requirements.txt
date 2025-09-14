@@ -6,7 +6,6 @@ pymysql
 pycryptodome
 argon2-cffi
 pyjwt
-trio
 pytest
 locust
 prometheus-fastapi-instrumentator
@@ -16,4 +15,3 @@ mmh3
 cryptography
 httpx
 anyio
-pytest-anyio

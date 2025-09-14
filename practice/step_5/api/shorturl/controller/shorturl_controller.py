@@ -9,7 +9,6 @@ from api.shorturl.service.shorturl_service import ShortUrlService
 from api.common.response import Response
 from api.common.token import verify_token
 from api.common.utils.client import get_client_ip
-from api.shorturl.manager.shard_manager import ShortUrlShardManager, get_shard_manager
 
 
 
@@ -21,23 +20,23 @@ def create(
     request: Dict[str, Any],
     account: Account = Depends(verify_token),
     response_model=Response,
-    shard_manager: ShortUrlShardManager = Depends(get_shard_manager)
+    db: Session = Depends(get_session)
 ):
-    shorturl_service = ShortUrlService(shard_manager)
+    shorturl_service = ShortUrlService(db)
 
     body = request["body"]
     source = body["source"]
 
     shorturl = shorturl_service.create(source, account)
-    shard_manager.commit() 
+    db.commit() 
     return Response(body={"shorturl": shorturl})
 
 @router.post("/shorturl/noauth")
 def create(
     response_model=Response,
-    shard_manager: ShortUrlShardManager = Depends(get_shard_manager)
+    db: Session = Depends(get_session)
 ):
-    shorturl_service = ShortUrlService(shard_manager)
+    shorturl_service = ShortUrlService(db)
 
     source = "https://www.naver.com"
 
@@ -49,7 +48,7 @@ def create(
     )
 
     shorturl = shorturl_service.create(source, account)
-    shard_manager.commit()
+    db.commit()
     return Response(body={"shorturl": shorturl})
 
 
@@ -57,9 +56,9 @@ def create(
 def visit_shorturl(
     url: str,
     request: Request,
-    shard_manager: ShortUrlShardManager = Depends(get_shard_manager)
+    db: Session = Depends(get_session)
 ):
-    shorturl_service = ShortUrlService(shard_manager)
+    shorturl_service = ShortUrlService(db)
     request_ip = get_client_ip(request)
     shorturl = shorturl_service.get_shorturl(url, request_ip)
     if not shorturl:
